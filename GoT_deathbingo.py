@@ -60,17 +60,33 @@ deaths = ["Gendry",
          "Yara",
          "Cersei",
          "Gregor",
-         "Night King",
-         "Euron",
-         "Qyburn",
-         "Melisandre",
+#         "Night King",
+#         "Euron",
+#         "Qyburn",
+#         "Melisandre",
          "Bronn",
          "Tormund",
          "Davos",
-         "Faceless Man",
+         ["Faceless Man",
          "Missandei",
-         "Podrick"
+         "Podrick"],
+#         "Daario",
+#         "Grey Worm",
+#         "Gendry",
+#         "Robert Arryn",
+#         "Meera",
+#         "Ed Tollett",
+#         "Yara",
+#         "Cersei",
+#         "Gregor",
+#         "Night King",
+         "Euron",
+         "Qyburn",
+         "Melisandre",
+         "Viserion",
+         "Lyanna M",
           ]
+
 
 players = ["nobody00",
            "nobody01",
@@ -177,18 +193,6 @@ def check_for_winner(name_grid, death_register):
     is_winner = 1 if max_score == 5 else 0
     return score, max_score, is_winner
 
-def check_for_all_winners(name_grids, death_register, players):
-    winners = []
-    for i, name_grid in enumerate(name_grids):
-        score, max_score, is_winner  = check_for_winner(name_grid, death_register)
-        if is_winner:
-            winners.append([players[i], score, max_score, is_winner])
-    if len(winners) == 0:
-        print("There's no winners yet!")
-    else:
-        print("Winners!")
-    return winners
-    
 def resolve_deaths(partial_death_register):
     """transforms a partial list of the death register containing names and lists
     of names into just a big list of names"""
@@ -199,8 +203,24 @@ def resolve_deaths(partial_death_register):
             new_list = new_list + i
         else:
             new_list.append(i)
-    return new_list            
+    return new_list   
 
+def check_for_all_winners(name_grids, death_register, players):
+    winners = []
+    for i in range(1,len(death_register)):
+        deaths = resolve_deaths(death_register[0:i])
+        print("Checking for first {} deaths".format(len(deaths)))
+        for i, name_grid in enumerate(name_grids):
+            score, max_score, is_winner  = check_for_winner(name_grid, deaths)
+            if is_winner:
+                winners.append([players[i], score, max_score, is_winner])
+        if len(winners) == 0:
+            print("There's no winners yet!")
+        else:
+            print("Winners!")
+            return winners
+    
+         
 
 #  begin script  
 
